@@ -2,6 +2,17 @@ from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 from humans.models import Profile
 from guardian.shortcuts import assign_perm
+from auditlog.registry import auditlog
+from auditlog.models import AuditlogHistoryField
+
+class Notifications(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='notifications')
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Notification for {self.user.username}: {self.message}"
 
 class House(MPTTModel):
     """ Create home data """
@@ -37,6 +48,7 @@ class Entrance(models.Model):
         related_name='guarded_entrances',
         limit_choices_to = {'groups__name': 'Guard'}
     )
+    history = AuditlogHistoryField()
 
     def assign_guard(self, user):
         assign_perm('view_entrance', user, self)
@@ -50,6 +62,8 @@ class Entrance(models.Model):
     def __str__(self):
         return f"Entrance {self.entrance_number}, {self.house.address}"
 
+auditlog.register(Entrance)
+
 class Apartment(models.Model):
     entrance = models.ForeignKey(Entrance, on_delete=models.CASCADE, related_name='apartments')
     apartment_number = models.PositiveIntegerField()
@@ -62,6 +76,7 @@ class Apartment(models.Model):
         related_name='residents',
         limit_choices_to={'groups__name': 'Resident'}
     )
+    history = AuditlogHistoryField()
 
     class Meta:
         constraints = [
@@ -70,3 +85,5 @@ class Apartment(models.Model):
 
     def __str__(self):
         return f"Apartment {self.apartment_number}, Floor {self.floor_number}, {self.entrance.house.address}"
+
+auditlog.register(Apartment)

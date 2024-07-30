@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'humans',
     'mptt',
     'django_mptt_admin',
+    'auditlog',
 ]
 
 MIDDLEWARE = [

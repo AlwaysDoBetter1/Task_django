@@ -5,6 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.apps import apps
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
+from houses.models import Notifications
 
 def create_groups():
     # create groups
@@ -13,29 +14,36 @@ def create_groups():
     guard_group, created = Group.objects.get_or_create(name='Guard')
     user_group, created = Group.objects.get_or_create(name='Resident')
 
+    all_permissions = Permission.objects.all()
+    admin_group.permissions.set(all_permissions)
 
     for model in apps.get_models():
         content_type = ContentType.objects.get_for_model(model)
         permissions = Permission.objects.filter(content_type=content_type)
 
-        all_permissions = Permission.objects.all()
-        admin_group.permissions.set(all_permissions)
-
-
-
-
         if model._meta.model_name == 'house':
             view_permissions = permissions.filter(codename__startswith='view_')
             house_manager_group.permissions.set(view_permissions)
+
         elif model._meta.model_name == 'entrance':
             view_permissions = permissions.filter(codename__startswith='view_')
             change_permissions = permissions.filter(codename__startswith='change_')
             house_manager_group.permissions.add(*view_permissions)
             house_manager_group.permissions.add(*change_permissions)
             guard_group.permissions.set(view_permissions)
+
         elif model._meta.model_name == 'apartment':
             view_permissions = permissions.filter(codename__startswith='view_')
             user_group.permissions.set(view_permissions)
+
+    notification_permissions = all_permissions.filter(content_type=ContentType.objects.get_for_model(Notifications))
+
+    view_notf_permissions = notification_permissions.filter(codename__startswith='view_')
+
+    house_manager_group.permissions.add(*notification_permissions)
+    user_group.permissions.add(*view_notf_permissions)
+    guard_group.permissions.add(*view_notf_permissions)
+
 
 
 create_groups()
