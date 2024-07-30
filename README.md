@@ -12,13 +12,15 @@ Instructrions:
    Guard - Login: Guardian Password: 1234567f
    Resident - Login: Resident Password: 1234567f
 7. In 'admin' you can create user accounts with any of choosen role, create houses, entrances, appartments, assign managers and any other privilegies
-8. In 'manager' you can view house, which you assigned, change entrances and add guards
-9. In 'guard' you can view entrances
-10. In 'resident' you can view appartments
+8. In 'manager' you can view house, which you assigned, change entrances and add guards and any manipulations with notifications
+9. In 'guard' you can view entrances, notifications
+10. In 'resident' you can view appartments, notifications
+11. In the “AUDIT LOG” you can get logs with any changes in the entrances and apartments and expand the data that will be logged
 
 
 
 Extra work:
 1. A unique address and unique numbering of apartments and entrances in the building are required
 2. You can only select people from the relevant group
-3.  
+3. Added Log with using django-auditlog
+4. Added Notifications placeboard
