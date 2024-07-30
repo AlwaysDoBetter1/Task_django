@@ -24,3 +24,4 @@ Extra work:
 2. You can only select people from the relevant group
 3. Added Log with using django-auditlog
 4. Added Notifications placeboard
+5. DRF: go to http://127.0.0.1:8000/houses/, http://127.0.0.1:8000/entrances/, and http://127.0.0.1:8000/apartments/
