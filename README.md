@@ -7,10 +7,10 @@ Instructrions:
 3. Run project
 4. Go to the registration field http://127.0.0.1:8000/admin/login/?next=/admin/
 5. Choice any ready user account
-   admin - Login: admin Password: admin
-   Manager - Login: manager1 Password: 1234567f
-   Guard - Login: Guardian Password: 1234567f
-   Resident - Login: Resident Password: 1234567f
+   [admin - Login: admin Password: admin]
+   [Manager - Login: manager1 Password: 1234567f]
+   [Guard - Login: Guardian Password: 1234567f]
+   [Resident - Login: Resident Password: 1234567f]
 7. In 'admin' you can create user accounts with any of choosen role, create houses, entrances, appartments, assign managers and any other privilegies
 8. In 'manager' you can view house, which you assigned, change entrances and add guards and any manipulations with notifications
 9. In 'guard' you can view entrances, notifications
